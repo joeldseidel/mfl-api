@@ -84,3 +84,7 @@ fabric.properties
 .idea/sonarlint
 
 # End of https://www.gitignore.io/api/intellij
+mfl-api.iml
+.idea/vcs.xml
+.idea/modules.xml
+.idea/misc.xml
