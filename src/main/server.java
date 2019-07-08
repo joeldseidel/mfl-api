@@ -3,6 +3,7 @@ package main;
 import com.sun.net.httpserver.HttpsConfigurator;
 import com.sun.net.httpserver.HttpsParameters;
 import com.sun.net.httpserver.HttpsServer;
+import main.handlers.AuthenticateUserHandler;
 
 import javax.net.ssl.*;
 import java.io.InputStream;
@@ -41,7 +42,7 @@ public class server {
                 }
             });
             //Create server event handler context
-            server = createHandlerContexts(server);
+            server = createHandlerContext(server);
             server.setExecutor(null);
             server.start();
             System.out.println("Server running and listening on " + address);
