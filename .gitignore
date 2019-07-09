@@ -89,3 +89,6 @@ mfl-api.iml
 .idea/modules.xml
 .idea/misc.xml
 src/main/data/database.properties
+
+**/test
+src/main/data/testkey.jks

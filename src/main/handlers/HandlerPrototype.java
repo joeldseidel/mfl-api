@@ -102,5 +102,9 @@ public abstract class HandlerPrototype {
         os.close();
     }
 
-    protected abstract void fulfillRequest(JSONObject requestParams);
+    public abstract void fulfillRequest(JSONObject requestParams);
+
+    public String getResponse(){
+        return this.response;
+    }
 }

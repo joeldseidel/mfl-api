@@ -21,14 +21,14 @@ public class AuthenticateUserHandler extends HandlerPrototype implements HttpHan
      * @param requestParams username and password params json object
      */
     @Override
-    protected void fulfillRequest(JSONObject requestParams) {
+    public void fulfillRequest(JSONObject requestParams) {
         //Get values from request parameter object
         String username = requestParams.getString("username");
         String password = requestParams.getString("password");
         //Get user credential authenticity
         boolean isUserValid = new UserDataManager().isUserValid(username, password);
         //Create authenticity return object
-        JSONObject userResponseObj = new JSONObject().put("isUserValid", isUserValid);
+        JSONObject userResponseObj = new JSONObject();
         userResponseObj.put("user_valid", isUserValid);
         if(isUserValid){
             //Add token for future requests
