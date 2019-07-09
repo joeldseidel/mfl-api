@@ -26,7 +26,7 @@ public class UserDataManager {
      */
     public boolean isUserValid(String username, String password){
         //Get count of the rows that match the username and password provided
-        String getCredsValidSql = "SELECT COUNT(*) FROM Users WHERE username = ? AND password = ?";
+        String getCredsValidSql = "SELECT password FROM Users WHERE username = ?";
         PreparedStatement getCredsValidStmt = database.prepareStatement(getCredsValidSql);
         //Get hashed password to compare to database
         String hashedPassword = getHashedPassword(password);
@@ -34,11 +34,9 @@ public class UserDataManager {
         try {
             //Prepare statement arguments
             getCredsValidStmt.setString(1, username);
-            getCredsValidStmt.setString(2, hashedPassword);
             //Run query for match count
             ResultSet userCredsValidResult = database.query(getCredsValidStmt);
-            //Credentials are valid if count of matching rows is exactly one
-            isValid = userCredsValidResult.getInt(0) == 1;
+            isValid = userCredsValidResult.next() && userCredsValidResult.getString("password").equals(hashedPassword);
         } catch (SQLException sqlEx){
             sqlEx.printStackTrace();
             //Not sure of actual validity, but the query didn't work
@@ -53,15 +51,20 @@ public class UserDataManager {
      * @return hashed text password
      */
     private String getHashedPassword(String password){
-        MessageDigest messageDigestSHA;
-        try {
-            //Get SHA-256 algorithm
-            messageDigestSHA = MessageDigest.getInstance("SHA-256");
-            //Hash password string
-            return new String(messageDigestSHA.digest(password.getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException nsae){
-            nsae.printStackTrace();
+        try{
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if(hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch(Exception ex){
+            throw new RuntimeException(ex);
         }
-        return null;
     }
 }
