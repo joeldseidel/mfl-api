@@ -99,7 +99,7 @@ public class UserHandler extends HandlerPrototype implements HttpHandler {
         String password = requestParams.getString("password");
         String firstName = requestParams.getString("firstname");
         String lastName = requestParams.getString("lastname");
-        String org = requestParams.getString("org");
+        int org = requestParams.getInt("organization");
         int access = requestParams.getInt("access");
         //Create user object
         return new User(username, password, firstName, lastName, org, access);

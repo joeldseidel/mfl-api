@@ -82,15 +82,15 @@ public class UserDataManager {
     public boolean createUser(User userProfile){
         boolean isSuccessfulInsert;
         //Insert user record to database
-        String insertUserSql = "INSERT INTO Users (username, password, firstname, lastname, organizationid, access) VALUES(?, ?, ?, ?, ?, ?)";
+        String insertUserSql = "INSERT INTO Users (username, password, firstname, lastname, organizationid, accessid) VALUES(?, ?, ?, ?, ?, ?)";
         PreparedStatement insertUserStmt = database.prepareStatement(insertUserSql);
         try {
             //Prepare statement with user parameters
             insertUserStmt.setString(1, userProfile.getUsername());
-            insertUserStmt.setString(2, userProfile.getPassword());
+            insertUserStmt.setString(2, getHashedPassword(userProfile.getPassword()));
             insertUserStmt.setString(3, userProfile.getFirstname());
             insertUserStmt.setString(4, userProfile.getLastname());
-            insertUserStmt.setString(5, userProfile.getOrganization());
+            insertUserStmt.setInt(5, userProfile.getOrganization());
             insertUserStmt.setInt(6, userProfile.getAccess());
             //Insert user record
             database.nonQuery(insertUserStmt);

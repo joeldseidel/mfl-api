@@ -67,7 +67,7 @@ public class AuthenticateUserHandler extends HandlerPrototype implements HttpHan
         try{
             //Generate a user token
             Algorithm algorithm = Algorithm.HMAC256("secret");
-            token = JWT.create().withIssuer("localhost:1680").sign(algorithm);
+            token = JWT.create().withIssuer("localhost:6969").sign(algorithm);
         } catch (Exception ex){
             ex.printStackTrace();
         }
