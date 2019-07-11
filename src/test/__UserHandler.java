@@ -26,7 +26,7 @@ public class __UserHandler {
         UserHandler handler = new UserHandler();
         handler.fulfillRequest(createUserRequest);
         DatabaseInteraction database = new DatabaseInteraction();
-        ResultSet createUserResults = database.query(database.prepareStatement("SELECT * FROM Users WHERE username = realDonaldTrump"));
+        ResultSet createUserResults = database.query(database.prepareStatement("SELECT * FROM Users WHERE username = 'realDonaldTrump'"));
         try {
             assertTrue(createUserResults.next());
             assertEquals("realDonaldTrump", createUserResults.getString("username"));
@@ -39,6 +39,8 @@ public class __UserHandler {
             sqlEx.printStackTrace();
             fail();
         }
+        //Test has passed. Clean up database entries
+        database.nonQuery(database.prepareStatement("DELETE FROM Users WHERE username = 'realDonaldTrump'"));
         database.closeConnection();
     }
 }
