@@ -9,6 +9,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  * @author Joel Seidel
@@ -31,7 +33,7 @@ public class UserDataManager {
         PreparedStatement getCredsValidStmt = database.prepareStatement(getCredsValidSql);
         //Get hashed password to compare to database
         String hashedPassword = getHashedPassword(password);
-        boolean isValid = false;
+        boolean isValid;
         try {
             //Prepare statement arguments
             getCredsValidStmt.setString(1, username);
@@ -44,6 +46,32 @@ public class UserDataManager {
             isValid = false;
         }
         return isValid;
+    }
+
+    /**
+     * Get user id of a user record by username
+     * @param username username to retrieve uid of
+     * @return uid of the provided username
+     */
+    public long getUid(String username){
+        //Get uid from user record by username
+        String getUidSql = "SELECT uid FROM Users WHERE username = ?";
+        PreparedStatement getUidStmt = database.prepareStatement(getUidSql);
+        try {
+            //Prepare get uid args
+            getUidStmt.setString(1, username);
+            ResultSet getUidResults = database.query(getUidStmt);
+            if(getUidResults.next()){
+                //Return the uid of username
+                return getUidResults.getLong("uid");
+            } else {
+                //Nothing in result set
+                return -1;
+            }
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+            return -1;
+        }
     }
 
     /**
@@ -75,6 +103,44 @@ public class UserDataManager {
     }
 
     /**
+     * Edit user record in database by field, defined by user
+     * @param uid user id
+     * @param editFields user attributes to edit
+     * @param newValues new values for user attribute
+     * @return success / failure boolean
+     */
+    public boolean editUser(long uid, List<String> editFields, List<String> newValues){
+        boolean isSuccessfulUpdate;
+        //Create base clause of the update string
+        StringBuilder updateUserSql = new StringBuilder("UPDATE Users SET ");
+        //Add field set clauses for each of the fields to be edited
+        for(int i = 0; i < editFields.size(); i++){
+            //Add field name ~ corresponding to the database field value
+            updateUserSql.append(editFields.get(i));
+            updateUserSql.append(" = ");
+            //Add new field value
+            updateUserSql.append(newValues.get(i));
+            if(i + 1 < editFields.size()){
+                //This is not the last field to be edited, add the comma and space
+                updateUserSql.append(", ");
+            }
+        }
+        //Done adding fields, add the where clause
+        updateUserSql.append(" WHERE uid = ? ");
+        try {
+            //Prepare and run update nonquery on built query string
+            PreparedStatement updateUserStmt = database.prepareStatement(updateUserSql.toString());
+            updateUserStmt.setLong(1, uid);
+            database.nonQuery(updateUserStmt);
+            isSuccessfulUpdate = true;
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+            isSuccessfulUpdate = false;
+        }
+        return isSuccessfulUpdate;
+    }
+
+    /**
      * Get hashed string for password
      * @param password plain text password to hash
      * @return hashed text password
@@ -85,11 +151,10 @@ public class UserDataManager {
             byte[] hash = digest.digest(password.getBytes("UTF-8"));
             StringBuilder hexString = new StringBuilder();
 
-            for (int i = 0; i < hash.length; i++) {
-                String hex = Integer.toHexString(0xff & hash[i]);
-                if(hex.length() == 1) hexString.append('0');
+            IntStream.range(0, hash.length).mapToObj(i -> Integer.toHexString(0xff & hash[i])).forEach(hex -> {
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
-            }
+            });
 
             return hexString.toString();
         } catch(Exception ex){
