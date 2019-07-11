@@ -1,6 +1,7 @@
 package main.managers;
 
 import main.data.DatabaseInteraction;
+import main.types.User;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -43,6 +44,34 @@ public class UserDataManager {
             isValid = false;
         }
         return isValid;
+    }
+
+    /**
+     * Create user record in database from user object
+     * @param userProfile user object containing record params
+     * @return success / failure boolean
+     */
+    public boolean createUser(User userProfile){
+        boolean isSuccessfulInsert;
+        //Insert user record to database
+        String insertUserSql = "INSERT INTO Users (username, password, firstname, lastname, organizationid, access) VALUES(?, ?, ?, ?, ?, ?)";
+        PreparedStatement insertUserStmt = database.prepareStatement(insertUserSql);
+        try {
+            //Prepare statement with user parameters
+            insertUserStmt.setString(1, userProfile.getUsername());
+            insertUserStmt.setString(2, userProfile.getPassword());
+            insertUserStmt.setString(3, userProfile.getFirstname());
+            insertUserStmt.setString(4, userProfile.getLastname());
+            insertUserStmt.setString(5, userProfile.getOrganization());
+            insertUserStmt.setInt(6, userProfile.getAccess());
+            //Insert user record
+            database.nonQuery(insertUserStmt);
+            isSuccessfulInsert = true;
+        } catch (SQLException sqlEx) {
+            sqlEx.printStackTrace();
+            isSuccessfulInsert = false;
+        }
+        return isSuccessfulInsert;
     }
 
     /**

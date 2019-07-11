@@ -67,7 +67,8 @@ public class server {
     }
 
     private static HttpsServer createHandlerContexts(HttpsServer server){
-        server.createContext("/authenticate_user", new AuthenticateUserHandler());
+        server.createContext("/user/authenticate", new AuthenticateUserHandler());
+        server.createContext("/user/create", new UserHandler());
         return server;
     }
 }
