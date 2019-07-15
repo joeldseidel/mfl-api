@@ -118,8 +118,10 @@ public class UserDataManager {
             //Add field name ~ corresponding to the database field value
             updateUserSql.append(editFields.get(i));
             updateUserSql.append(" = ");
+            updateUserSql.append("'");
             //Add new field value
             updateUserSql.append(newValues.get(i));
+            updateUserSql.append("'");
             if(i + 1 < editFields.size()){
                 //This is not the last field to be edited, add the comma and space
                 updateUserSql.append(", ");
