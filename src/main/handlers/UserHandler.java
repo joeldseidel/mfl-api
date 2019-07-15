@@ -115,18 +115,4 @@ public class UserHandler extends HandlerPrototype implements HttpHandler {
         requiredKeys = actionReqKeys;
         return isRequestValid(requestParams);
     }
-
-    /**
-     * The action was invalid in some way
-     */
-    private void returnActionFailure(){
-        this.response = new JSONObject().put("success", false).toString();
-    }
-
-    /**
-     * The action was successful, report back to the client
-     */
-    private void returnActionSuccess(){
-        this.response = new JSONObject().put("success", true).toString();
-    }
 }

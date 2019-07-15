@@ -107,4 +107,19 @@ public abstract class HandlerPrototype {
     public String getResponse(){
         return this.response;
     }
+
+
+    /**
+     * The action was invalid in some way
+     */
+    protected void returnActionFailure(){
+        this.response = new JSONObject().put("success", false).toString();
+    }
+
+    /**
+     * The action was successful, report back to the client
+     */
+    protected void returnActionSuccess(){
+        this.response = new JSONObject().put("success", true).toString();
+    }
 }
