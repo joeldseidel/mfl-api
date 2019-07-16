@@ -104,15 +104,4 @@ public class UserHandler extends HandlerPrototype implements HttpHandler {
         //Create user object
         return new User(username, password, firstName, lastName, org, access);
     }
-
-    /**
-     * Check request validity using required keys of the defined action
-     * @param actionReqKeys required keys defined by the action defined in the original request
-     * @param requestParams parameters to verify validity of
-     * @return is action valid? boolean
-     */
-    private boolean isActionKeysValid(String[] actionReqKeys, JSONObject requestParams){
-        requiredKeys = actionReqKeys;
-        return isRequestValid(requestParams);
-    }
 }

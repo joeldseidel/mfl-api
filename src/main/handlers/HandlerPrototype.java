@@ -122,4 +122,15 @@ public abstract class HandlerPrototype {
     protected void returnActionSuccess(){
         this.response = new JSONObject().put("success", true).toString();
     }
+
+    /**
+     * Check request validity using required keys of the defined action
+     * @param actionReqKeys required keys defined by the action defined in the original request
+     * @param requestParams parameters to verify validity of
+     * @return is action valid? boolean
+     */
+    protected boolean isActionKeysValid(String[] actionReqKeys, JSONObject requestParams){
+        requiredKeys = actionReqKeys;
+        return isRequestValid(requestParams);
+    }
 }
