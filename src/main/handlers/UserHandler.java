@@ -15,12 +15,15 @@ public class UserHandler extends HandlerPrototype implements HttpHandler {
         handlerName = "User Handler";
     }
 
+    //Action types of this handler
+    private enum Action {CREATE, EDIT };
+
     @Override
     public void fulfillRequest(JSONObject requestParams) {
-        String action = requestParams.getString("action");
+        Action action = Action.valueOf(requestParams.getString("action").toUpperCase());
         //Route request action to fulfillment method
         switch(action){
-            case "create":
+            case CREATE:
                 //Create user action defined
                 //Determine if request contains required keys for defined keys
                 if(isActionKeysValid(new String[]{ "username", "password", "firstname", "lastname", "organization", "access", "token", "action" }, requestParams)) {
@@ -31,7 +34,7 @@ public class UserHandler extends HandlerPrototype implements HttpHandler {
                     returnActionFailure();
                 }
                 break;
-            case "edit":
+            case EDIT:
                 //Edit user action defined
                 if(isActionKeysValid(new String[]{ "fields", "username", "token", "action" }, requestParams)){
                     //Request is valid for edit user action, perform request
