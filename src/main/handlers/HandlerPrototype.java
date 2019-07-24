@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
+import main.types.exceptions.IErrorMessage;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -114,7 +115,15 @@ public abstract class HandlerPrototype {
      */
     protected void returnActionFailure(){ this.response = new JSONObject().put("success", false).toString(); }
 
-    //TODO: return action failure with exception arg ~ implement exception error message call
+    /**
+     * The action was invalid and the exception that broke it has something that it wants to say
+     * @param reportableException an exception that allows for an error report
+     */
+    protected void returnActionFailure(IErrorMessage reportableException){
+        JSONObject returnObj = new JSONObject().put("success", false);
+        returnObj.put("message", reportableException.getErrorMessage());
+        this.response = returnObj.toString();
+    }
 
     /**
      * The action was successful, report back to the client
