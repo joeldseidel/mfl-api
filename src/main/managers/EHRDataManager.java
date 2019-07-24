@@ -108,9 +108,9 @@ public class EHRDataManager {
      */
     public JSONArray convertProfilesToJsonArray(PatientProfile[] patientProfiles){
         JSONArray profileArr = new JSONArray();
-        for(int i = 0; i < patientProfiles.length; i++){
+        for (PatientProfile patientProfile : patientProfiles) {
             //Add the converted patient profile to the JSON array
-            profileArr.put(patientProfiles[i].convertToJson());
+            profileArr.put(patientProfile.convertToJson());
         }
         return profileArr;
     }
