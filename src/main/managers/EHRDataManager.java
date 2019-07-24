@@ -100,4 +100,18 @@ public class EHRDataManager {
         //Get the number of results in the search result set
         return bundleRootObj.getJSONObject("total").getInt("value");
     }
+
+    /**
+     * Convert an array of patient profiles to a JSON array containing JSON object representations of the patient profiles
+     * @param patientProfiles array of patient profiles to convert
+     * @return JSON array form of the patient profile array
+     */
+    public JSONArray convertProfilesToJsonArray(PatientProfile[] patientProfiles){
+        JSONArray profileArr = new JSONArray();
+        for(int i = 0; i < patientProfiles.length; i++){
+            //Add the converted patient profile to the JSON array
+            profileArr.put(patientProfiles[i].convertToJson());
+        }
+        return profileArr;
+    }
 }
