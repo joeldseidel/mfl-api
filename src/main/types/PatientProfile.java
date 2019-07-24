@@ -51,6 +51,22 @@ public class PatientProfile {
     }
 
     /**
+     * Convert this object to a representative JSON object
+     * @return JSON object representing this object
+     */
+    public JSONObject convertToJson(){
+        JSONObject thisProfile = new JSONObject();
+        //Add object properties to JSON object
+        thisProfile.put("gender", this.gender);
+        thisProfile.put("city", this.city);
+        thisProfile.put("state", this.state);
+        thisProfile.put("age", this.age);
+        thisProfile.put("isActive", this.isActive);
+        thisProfile.put("isDeceased", this.isDeceased);
+        return thisProfile;
+    }
+
+    /**
      * Get the age of patient based on date of birth
      * @param birthDate date of birth string from patient record
      * @return integer value of years old
