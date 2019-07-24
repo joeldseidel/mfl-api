@@ -172,4 +172,84 @@ public class PatientProfile {
         //Get text value of extension
         return valueCodeConcept.getJSONObject("text").getString("value");
     }
+
+    /**
+     * Gender property getter method
+     * @return string: gender
+     */
+    public String getGender() {
+        return gender;
+    }
+
+    /**
+     * City property getter method
+     * @return string: city
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
+     * State property getter method
+     * @return string: state
+     */
+    public String getState() {
+        return state;
+    }
+
+    /**
+     * Race property getter method
+     * @return string: race
+     */
+    public String getRace() {
+        return race;
+    }
+
+    /**
+     * Ethnicity property getter method
+     * @return string: ethnicity
+     */
+    public String getEthnicity() {
+        return ethnicity;
+    }
+
+    /**
+     * Birth sex property getter method
+     * @return string: birth sex
+     */
+    public String getBirthSex() {
+        return birthSex;
+    }
+
+    /**
+     * EHR key property getter method
+     * @return string: EHR key
+     */
+    public String getEhrKey() {
+        return ehrKey;
+    }
+
+    /**
+     * Age property getter method
+     * @return integer: age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     * Is active profile getter method
+     * @return boolean: is active?
+     */
+    public boolean isActive() {
+        return isActive;
+    }
+
+    /**
+     * Is deceased profile getter method
+     * @return boolean: is deceased?
+     */
+    public boolean isDeceased() {
+        return isDeceased;
+    }
 }
