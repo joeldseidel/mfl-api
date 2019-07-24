@@ -8,10 +8,11 @@ public class EHRQueryException extends Exception implements IErrorMessage {
     private String errorMessage = "";
     public EHRQueryException(String queryError, Throwable rootError){
         super(queryError, rootError);
+        this.errorMessage = queryError;
     }
     public EHRQueryException(String queryError){
         super(queryError);
-        this.errorMessage = errorMessage;
+        this.errorMessage = queryError;
     }
 
     @Override
