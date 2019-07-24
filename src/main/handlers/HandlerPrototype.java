@@ -112,15 +112,23 @@ public abstract class HandlerPrototype {
     /**
      * The action was invalid in some way
      */
-    protected void returnActionFailure(){
-        this.response = new JSONObject().put("success", false).toString();
-    }
+    protected void returnActionFailure(){ this.response = new JSONObject().put("success", false).toString(); }
+
+    //TODO: return action failure with exception arg ~ implement exception error message call
 
     /**
      * The action was successful, report back to the client
      */
-    protected void returnActionSuccess(){
-        this.response = new JSONObject().put("success", true).toString();
+    protected void returnActionSuccess(){ this.response = new JSONObject().put("success", true).toString(); }
+
+    /**
+     * The action was successful and returned a value, report back to the client
+     * @param returnArgs return arguments for the return to client
+     */
+    protected void returnActionSuccess(JSONObject returnArgs){
+        JSONObject returnObj = new JSONObject().put("success", true);
+        returnObj.put("results", returnArgs);
+        this.response = returnObj.toString();
     }
 
     /**
